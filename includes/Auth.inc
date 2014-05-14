@@ -22,8 +22,11 @@ abstract class RestRouterAuth {
   /**
    * Constructor
    *
-   * @param $request
+   * @param RestRouterRequest $request
    *   RestRouterRequest that is being processed
+   * @param array $settings
+   *   An associative array of any settings that were defined in
+   *   hook_rest_endpoints().
    */
   function __construct(RestRouterRequest $request, $settings) {
     $this->request = $request;

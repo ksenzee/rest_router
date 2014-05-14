@@ -49,8 +49,8 @@ class RestRouterParser {
   /**
    * List of available parsers provided by parser.
    *
-   * @return
-   *   Array of parser definitions
+   * @return array
+   *   An array of parser definitions.
    */
   public static function parsers() {
     return array(
@@ -70,7 +70,7 @@ class RestRouterParser {
 
 
   /**
-   * Retrieve parser infomration based on request.
+   * Retrieve parser information based on request.
    *
    * @param $content_type
    *   Request content type

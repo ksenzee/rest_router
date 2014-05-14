@@ -1,7 +1,7 @@
 REST Router
 ===========
 
-Module that allows to create multiple REST endpoints defined in code. No UI is
+Module that allows creating multiple REST endpoints defined in code. No UI is
 included in this module. Key features:
 
   - lightweight
@@ -11,11 +11,14 @@ included in this module. Key features:
 
 ### Using router
 
-To create new rest endpoint module needs to implement `hook_rest_endpoints`. Hook documentation is available in `rest_router.api.php`.
+To create a new REST endpoint, your module needs to implement
+`hook_rest_endpoints`. Hook documentation is available in
+`rest_router.api.php`.
 
 ##### Custom responses
 
-Object or function callbacks called by rest_router module can return repsonse in different data formats. Scalar responses are always converted to array
+Object or function callbacks called by rest_router module can return responses
+in different data formats. Scalar responses are always converted to arrays.
 
 ```php
     function my_callback() {
@@ -29,13 +32,14 @@ Will become in response data
     array("value")
 ```
 
-If other than `200 OK` response is required function can return one of response defined response objects.
+If a response other than `200 OK` is required, the function can return a defined
+response object:
 
 - `new RestRouterResponse($code, $data = NULL)`
 - `RestRouterErrorResponse($code, $message, $data = NULL)`
 - `RestRouterRedirectResponse($path, $code)`
 
-Each response has helper method that can be used from inherited class.
+Each response has a helper method that can be used from the parent class.
 
 **Examples**
 
@@ -44,24 +48,25 @@ Each response has helper method that can be used from inherited class.
         // Custom response by initializing class
         return new RestRouterResponse(204);
 
-        // Response by internal helper
+        // Response via internal helper
         return $this->errorResponse(400, "Missing param [1]");
 
-        // Redirect resposne exmaple
+        // Redirect response example
         return $this->redirectResponse('method/2');
     }
 ```
 
 ### Ideas
 
-- Allow API version definition to override 'auth', 'request', 'response' settings.
+- Allow API version definition to override the 'auth', 'request', and 'response'
+settings.
 
 ### Tests
 
-Unit tests are for classes. To run them
+Unit tests are for classes. To run them:
 
     drush test-run "Rest Router Unit"
 
-Web test cases can be run by
+Web test cases can be run with
 
     drush test-run "Rest Router"

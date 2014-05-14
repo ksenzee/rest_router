@@ -8,7 +8,7 @@
 /**
  * Specifies REST endpoints provided by module
  *
- * @return
+ * @return array
  *   Array of endpoints provided by module where key is endpoint machine name.
  */
 function hook_rest_endpoints() {
@@ -33,7 +33,7 @@ function hook_rest_endpoints() {
       // Default version of API if none provided. If this will be NULL and none
       // version will be parsed from HTTP request router will generated 404 response.
       'default version' => '1.0',
-      // List of supported authenticatin plugins
+      // List of supported authentication plugins
       'auth' => array(
         // Key is machine name of plugin and value is array which represents
         // configuration.
@@ -92,7 +92,7 @@ class CustomRestRouterV1 extends RestRouterApiRouter {
    * mysql table neither creates links. It has additional support for HTTP request
    * methods and routing to object methods.
    *
-   * @return
+   * @return array
    *   Array of routes
    */
   public function routes() {
@@ -102,19 +102,19 @@ class CustomRestRouterV1 extends RestRouterApiRouter {
     $items[self::HTTP_POST . ':my/path/%api::loader_callback'] = array(
       // Path can contain normal loader functions i.e. %node which will translate
       // to node_load or API class specific functions which can be defined as
-      // in example: %api::loader_callback. This definition would call method of initialzed
-      // endpoint object $endpoint->loader_callback([arg])
+      // in example: %api::loader_callback. This definition would call method of
+      // initialized endpoint object $endpoint->loader_callback([arg])
       'path' => 'subscriptions/%api::loader_callback',
       // Page callback can contain normal php function i.e. node_view or API method
       // in format api::method
       'page callback' => 'api::page_callback',
       // This works exactly as normal hook_menu implementation
       'page arguments' => array(1),
-      // Can contain normal function or objec method
+      // Can contain normal function or object method
       'access callback' => 'api::access_callback',
       // Works as hook_menu
       'access arguments' => array(1),
-      // Specifies HTTP method to which callback respons
+      // Specifies HTTP method to which callback responds
       'http method' => self::HTTP_GET,
     );
 
@@ -127,6 +127,8 @@ class CustomRestApiV1 extends RestRouterApiEndpoint {
    * Executed by router.
    *
    * @param $arg
+   *
+   * @return array
    */
   public function page_callback($arg) {
     // POST data can't be mapped to callback arguments but each API class

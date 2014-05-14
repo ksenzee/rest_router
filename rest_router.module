@@ -73,9 +73,10 @@ function rest_router_get_endpoints() {
 /**
  * Get defined REST endpoints
  *
- * @param $name
+ * @param string $name
  *   Machine name of the endpoint
- * @return
+ *
+ * @return array
  *   Endpoint definition
  */
 function rest_router_get_endpoint($name) {
@@ -86,12 +87,13 @@ function rest_router_get_endpoint($name) {
 /**
  * Determine router path without prefix
  *
- * @param $endpoint
+ * @param array $endpoint
  *   Endpoint definition
- * @param $path
+ * @param string $path
  *   Requested path
- * @return
- *   Path withtout prefix
+ *
+ * @return string
+ *   Path without prefix
  */
 function rest_router_get_path($endpoint, $path = NULL) {
   $path = !empty($path) ? $path : $_GET['q'];
@@ -107,10 +109,11 @@ function rest_router_get_path($endpoint, $path = NULL) {
 /**
  * Create router instance
  *
- * @param $request
- *   RestRouterRequest object
- * @return
- *   RestRouterApiRouter object instance
+ * @param RestRouterRequest $request
+
+ * @return RestRouterApiRouter
+ *
+ * @throws Exception
  */
 function rest_router_create_router(RestRouterRequest $request) {
   $endpoint = $request->endpoint();
@@ -131,9 +134,10 @@ function rest_router_create_router(RestRouterRequest $request) {
 /**
  * Main menu handler for endpoint path
  *
- * @param $name
+ * @param string $name
  *  Api endpoint callback
- * @return
+ *
+ * @return mixed
  */
 function rest_router_handler($name) {
   $response = NULL;
@@ -189,8 +193,7 @@ function rest_router_handler($name) {
 /**
  * Deliver HTTP response
  *
- * @param $response
- *   RestRouterResponse object
+ * @param RestRouterResponse $response
  */
 function rest_router_deliver(RestRouterResponse $response) {
   $response->prepare();
@@ -212,10 +215,9 @@ function rest_router_deliver(RestRouterResponse $response) {
 }
 
 /**
- * Run authentiation plugins to set correct user.
+ * Run authentication plugins to set correct user.
  *
- * @param $request
- *   RestRouterRequest object
+ * @param RestRouterRequest $request
  */
 function rest_router_authenticate(RestRouterRequest $request) {
   $plugins = rest_router_plugins('auth');
@@ -241,12 +243,12 @@ function rest_router_authenticate(RestRouterRequest $request) {
 /**
  * Create new redirect response for router.
  *
- * @param $path
+ * @param string $path
  *   API destination path (without version)
- * @param $code
+ * @param int $code
  *   Redirect code
- * @return
- *   RestRouterRedirectResponse
+ *
+ * @return RestRouterRedirectResponse
  */
 function rest_router_redirect($path, $code = 301) {
   return new RestRouterRedirectResponse($path, $code);
@@ -255,10 +257,13 @@ function rest_router_redirect($path, $code = 301) {
 /**
  * Retrieve version of requested API.
  *
- * @param $request
+ * @param RestRouterRequest $request
  *   RestRouterRequest object
- * @return
+ *
+ * @return string
  *   Version string
+ *
+ * @throws RestRouterException
  */
 function rest_router_version(RestRouterRequest $request) {
   $plugins  = rest_router_plugins('version');
@@ -326,8 +331,8 @@ function rest_router_plugins($type = NULL) {
  *   Api object
  * @param $method
  *   Name of object method
- * @return
- *   Boolean
+ *
+ * @return bool
  */
 function rest_router_loader_callback($value, $object, $method) {
   return call_user_func_array(array($object, $method), array($value));
@@ -340,8 +345,8 @@ function rest_router_loader_callback($value, $object, $method) {
  *   Api object
  * @param $method
  *   Name of object method
- * @return
- *   Boolean
+ *
+ * @return bool
  */
 function rest_router_access_callback($object, $method) {
   // Remove object reference and method name from args
@@ -356,8 +361,8 @@ function rest_router_access_callback($object, $method) {
  *   Api object
  * @param $method
  *   Name of object method
- * @return
- *   Boolean
+ *
+ * @return bool
  */
 function rest_router_page_callback($object, $method) {
   // Remove object reference and method name from args
